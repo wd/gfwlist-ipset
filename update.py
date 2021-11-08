@@ -38,7 +38,7 @@ class Logger():
             self.logger.addHandler(myhandler)
 
 class Updater(object):
-    def __init__(self, output, dns, ipset, extra):
+    def __init__(self, output, dns, ipset, extra, exclude):
         self.logger = Logger(self.__class__.__name__).logger
         self.logger.debug('init')
         self.url = 'https://raw.github.com/gfwlist/gfwlist/master/gfwlist.txt'
@@ -46,6 +46,11 @@ class Updater(object):
         self.dns = dns
         self.ipset = ipset
         self.extra = extra
+        self.exclude = {}
+
+        if exclude:
+            for domain in exclude.read().splitlines():
+                self.exclude[domain] = True
 
     def _update_list_file_from_remote(self, url, filename):
         resp = request.urlopen(url)
@@ -94,6 +99,8 @@ class Updater(object):
 
         with open(filename, 'w') as fh:
             for domain in domains:
+                if self.exclude.get(domain, False):
+                    continue
                 fh.write("server=/{}/{}\n".format(domain, self.dns))
                 fh.write("ipset=/{}/{}\n".format(domain, self.ipset))
 
@@ -114,6 +121,7 @@ def main():
     main_parser.add_argument('--ipset', '-i', help='ipset list name', default="gfwip", type=str)
     main_parser.add_argument('--output', '-o', help='output file', type=str, default="gfwlist-ipset.conf")
     main_parser.add_argument('--extra', '-e', help='extra domain names', type=open)
+    main_parser.add_argument('--exclude', '-k', help='exclude domain names', type=open)
 
     logger = Logger('Main').logger
     opts = main_parser.parse_args()
@@ -122,7 +130,7 @@ def main():
         default_logging_level = logging.DEBUG
         logger.setLevel(default_logging_level)
 
-    Updater(output=opts.output, dns=opts.dns, ipset=opts.ipset, extra=opts.extra).update_list()
+    Updater(output=opts.output, dns=opts.dns, ipset=opts.ipset, extra=opts.extra, exclude=opts.exclude).update_list()
 
 if __name__ == '__main__':
     main()

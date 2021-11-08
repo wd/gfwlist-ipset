@@ -17,7 +17,8 @@ optional arguments:
                         output file
   --extra EXTRA, -e EXTRA
                         extra domain names
-
+  --exclude EXCLUDE, -k EXCLUDE
+                        exclude domain names
 
 ```
 Update the list
