@@ -98,7 +98,7 @@ class Updater(object):
                 domains.add(domain)
 
         with open(filename, 'w') as fh:
-            for domain in domains:
+            for domain in sorted(domains):
                 if self.exclude.get(domain, False):
                     continue
                 fh.write("server=/{}/{}\n".format(domain, self.dns))
