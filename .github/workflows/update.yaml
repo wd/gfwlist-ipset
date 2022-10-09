@@ -17,10 +17,10 @@ jobs:
 
       - name: generate domains file
         run: |
-          grep 'server=' gfwlist-ipset.conf | awk -F'/' '{print $2}' > gfw-domains.conf
+          grep 'server=' gfwlist-ipset.conf | awk -F'/' '{print $2}' > gfwlist-domains.conf
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          file_pattern: 'gfwlist-ipset.conf gfw-domains.conf'
+          file_pattern: 'gfwlist-ipset.conf gfwlist-domains.conf'
 
 
