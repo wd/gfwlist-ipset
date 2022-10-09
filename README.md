@@ -27,3 +27,5 @@ Update the list
 ./update.py -e gfwlist.ext
 2021-11-06 11:20:13,760 Updater: INFO [_update_gfw_list/100] total domain 6059
 ```
+
+Or download the file directly: https://raw.githubusercontent.com/wd/gfwlist-ipset/main/gfwlist-ipset.conf
