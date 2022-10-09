@@ -15,6 +15,12 @@ jobs:
       - name: run updater
         run: python update.py -e gfwlist.ext
 
+      - name: generate domains file
+        run: |
+          grep 'server=' gfwlist-ipset.conf | awk -F'/' '{print $2}' > gfw-domains.conf
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          file_pattern: 'gfwlist-ipset.conf'
+          file_pattern: 'gfwlist-ipset.conf gfw-domains.conf'
+
+
