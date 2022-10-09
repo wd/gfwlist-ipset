@@ -1,0 +1,20 @@
+name: Update gfwlist-ipset.conf from upstream
+on: push
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+
+      - name: run updater
+        run: python update.py -e gfwlist.ext
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: 'gfwlist-ipset.conf'
