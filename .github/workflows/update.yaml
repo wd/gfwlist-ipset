@@ -1,5 +1,8 @@
 name: Update gfwlist-ipset.conf from upstream
-on: push
+on:
+  push:
+  workflow_dispatch:
+
 jobs:
   update:
     runs-on: ubuntu-latest
